@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100e13">
+  <meta name="description" content="VELVET — a little mood, a little mystery.">
+  <title>VELVET</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --pink: #ff4f91;
+      --violet: #a66bff;
+      --text: #fff9fc;
+      --muted: #c7bac7;
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      padding: 28px 18px; overflow-x: hidden; color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(166,107,255,.22), transparent 38%),
+        radial-gradient(ellipse at 85% 80%, rgba(255,79,145,.18), transparent 42%),
+        linear-gradient(145deg, #100e13 0%, #1a111c 55%, #100e13 100%);
+    }
+    body::before, body::after {
+      content: ""; position: fixed; width: 320px; height: 320px; border-radius: 50%;
+      filter: blur(90px); opacity: .24; pointer-events: none;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    body::before { background: var(--violet); top: -150px; left: -110px; }
+    body::after { background: var(--pink); bottom: -170px; right: -100px; animation-delay: -5s; }
+    @keyframes drift { to { transform: translate(35px, 28px) scale(1.12); } }
+    .page { width: min(100%, 440px); position: relative; z-index: 1; }
+    .card {
+      position: relative; padding: 38px 28px; text-align: center;
+      border: 1px solid rgba(255,255,255,.13); border-radius: 30px;
+      background: linear-gradient(155deg, rgba(255,255,255,.105), rgba(255,255,255,.035));
+      box-shadow: 0 28px 90px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter: blur(18px);
+    }
+    .cta {
+      min-height: 58px; display: flex; align-items: center; justify-content: center;
+      padding: 0 22px; border-radius: 17px; color: white; text-decoration: none;
+      font-size: 15px; font-weight: 760; letter-spacing: .08em; text-transform: uppercase;
+      background: linear-gradient(105deg, #ff8a4c 0%, #ff4f91 48%, #a66bff 100%);
+      box-shadow: 0 12px 30px rgba(255,79,145,.23);
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    .cta:hover { transform: translateY(-3px); filter: brightness(1.08); box-shadow: 0 17px 38px rgba(255,79,145,.32); }
+    .cta:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+    .cta[aria-disabled="true"] { pointer-events: none; opacity: .82; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <!-- Replace the URL below with your dating/profile destination. -->
+      <a class="cta" id="match-link" href="https://www.instagram.com/YOUR_USERNAME/" target="_blank" rel="noopener noreferrer">Let’s Match ♡</a>
+    </section>
+  </main>
+  <script>
+    // Prevent accidental rapid repeat-clicks. This is not bot detection or a way
+    // to hide the destination: the link remains the same for every visitor.
+    const matchLink = document.getElementById('match-link');
+    let clickLocked = false;
+    matchLink.addEventListener('click', (event) => {
+      if (clickLocked) {
+        event.preventDefault();
+        return;
+      }
+      clickLocked = true;
+      matchLink.setAttribute('aria-disabled', 'true');
+      window.setTimeout(() => {
+        clickLocked = false;
+        matchLink.removeAttribute('aria-disabled');
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
